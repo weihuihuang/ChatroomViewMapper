@@ -7,4 +7,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+dependencies {
+    implementation 'com.google.auto.service:auto-service:1.0-rc6'
+    implementation 'com.squareup:javapoet:1.8.0'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
+    implementation 'io.github.weihuihuang:view-annotation:1.0.0'
+}
+
 apply from: rootProject.file('publish_jar.gradle')
