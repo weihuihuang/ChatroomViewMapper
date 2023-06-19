@@ -48,18 +48,28 @@ public class ViewCreatorClassGenerator {
                     mTypeElement);
 
             String classPath = jfo.toUri().getPath();
+
             mMessager.printMessage(Diagnostic.Kind.NOTE, "jfo-------- : " + classPath + "\n");
-            String buildDirStr = "/chatroom/build/";
+
+            String buildDirStr = "/chatroom/";
             String buildDirFullPath = classPath.substring(0, classPath.indexOf(buildDirStr) + buildDirStr.length());
+
             mMessager.printMessage(Diagnostic.Kind.NOTE, "jfo-------- : " + buildDirFullPath + "\n");
-            File customViewFile = new File(buildDirFullPath + "chatroom_view/chatroom_layout_views.txt");
-            HashSet<String> customViewClassNameSet = new HashSet<>();
-            putClassListData(customViewClassNameSet, customViewFile);
-            String generateClassInfoStr = generateClassInfoStr(customViewClassNameSet);
-            writer = jfo.openWriter();
-            writer.write(generateClassInfoStr);
-            writer.flush();
-            mMessager.printMessage(Diagnostic.Kind.NOTE, "generate file path : " + classPath +"\n");
+
+            String targetFilePath = buildDirFullPath + "chatroom_layout_views.txt";
+            File customViewFile = new File(targetFilePath);
+            if(customViewFile.exists()) {
+                mMessager.printMessage(Diagnostic.Kind.NOTE, "jfo-------- : " + targetFilePath + "：" + customViewFile.exists() +"\n");
+                HashSet<String> customViewClassNameSet = new HashSet<>();
+                putClassListData(customViewClassNameSet, customViewFile);
+                String generateClassInfoStr = generateClassInfoStr(customViewClassNameSet);
+                writer = jfo.openWriter();
+                writer.write(generateClassInfoStr);
+                writer.flush();
+                customViewFile.delete();
+                mMessager.printMessage(Diagnostic.Kind.NOTE, "jfo--------删除 : " + targetFilePath + "：" + customViewFile.exists() +"\n");
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
