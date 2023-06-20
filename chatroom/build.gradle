@@ -37,6 +37,8 @@ dependencies {
     implementation 'io.github.weihuihuang:view-annotation:1.0.0'
     annotationProcessor 'io.github.weihuihuang:view-processor:1.6.0'
 
+//    implementation project(":view-annotation")
+//    annotationProcessor project(":view-processor")
 
 }
 
