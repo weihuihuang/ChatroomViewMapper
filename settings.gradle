@@ -16,3 +16,4 @@ rootProject.name = "ChatroomViewMapper"
 include ':app'
 include ':view-annotation'
 include ':view-processor'
+include ':chatroom'

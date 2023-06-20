@@ -1,0 +1,72 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier = 'sources'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'io.github.weihuihuang'//Sonatype Jira上设置的groupId
+            artifactId = POM_ARTIFACT_ID
+            version = VERSION_NAME
+
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+            artifact androidSourcesJar
+
+            pom {
+                name = POM_NAME
+                description = POM_DESC
+                url = 'https://github.com/weihuihuang/ChatroomViewMapper'
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                        comments = 'A business-friendly OSS license'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'weihh'  //Sonatype Jira上的username
+                        name = 'weihh' //Sonatype Jira上的username
+                        email = '921583757@qq.com'
+                    }
+                }
+                scm {
+                    //修改成你的Git仓库地址： https://github.com/maqing-programmer/openlibrary.git
+                    connection = 'scm:git:github.com/weihuihuang/ChatroomViewMapper.git'
+                    developerConnection = 'scm:git:ssh://github.com/weihuihuang/ChatroomViewMapper.git'
+                    //分支地址：
+                    url = 'https://github.com/weihuihuang/ChatroomViewMapper/tree/master'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            // any other name that's descriptive for you
+            name = "Releases"
+
+            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            // You only need this if you want to publish snapshots, otherwise just set the URL
+            // to the release repo directly
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            // The username and password we've fetched earlier
+            credentials {
+                username "weihh"
+                password "1994%Whhwhh1115"
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
